@@ -1,7 +1,7 @@
-// script.js
+// script.js - VERSIÓN CORREGIDA
 
-// URL del backend - cambiar por tu URL de Render cuando despliegues
-const BACKEND_URL = 'https://mi-proyecto-web-4qau.onrender.com/';
+// URL de tu backend - VERIFICA QUE ESTA SEA LA CORRECTA
+const BACKEND_URL = 'https://mi-proyecto-web-4qau.onrender.com';
 
 // Elementos del DOM
 const btnObtenerMensaje = document.getElementById('btnObtenerMensaje');
@@ -10,10 +10,12 @@ const mensajeBackend = document.getElementById('mensajeBackend');
 const respuestaBackend = document.getElementById('respuestaBackend');
 const estadoConexion = document.getElementById('estadoConexion');
 
-// Función para probar la conexión al backend
+// Función para probar conexión
 async function probarConexion() {
     try {
-        const respuesta = await fetch(`${BACKEND_URL}/`);
+        estadoConexion.innerHTML = '🔄 Probando conexión...';
+        
+        const respuesta = await fetch(`${BACKEND_URL}/api/mensaje`);
         const datos = await respuesta.json();
         
         estadoConexion.innerHTML = `✅ Conectado al backend: ${datos.mensaje}`;
@@ -25,7 +27,7 @@ async function probarConexion() {
     }
 }
 
-// Obtener mensaje del backend
+// Obtener mensaje del backend - VERSIÓN CORREGIDA
 btnObtenerMensaje.addEventListener('click', async () => {
     try {
         mensajeBackend.innerHTML = '🔄 Cargando...';
@@ -33,9 +35,11 @@ btnObtenerMensaje.addEventListener('click', async () => {
         const respuesta = await fetch(`${BACKEND_URL}/api/mensaje`);
         const datos = await respuesta.json();
         
+        // ESTA ES LA PARTE CORREGIDA - usando las propiedades correctas
         mensajeBackend.innerHTML = `
             <strong>Mensaje:</strong> ${datos.mensaje}<br>
-            <strong>Hora:</strong> ${datos.timestamp}
+            <strong>Hora:</strong> ${datos.timestamp}<br>
+            <strong>Servidor:</strong> ${datos.servidor}
         `;
         
     } catch (error) {
@@ -43,7 +47,7 @@ btnObtenerMensaje.addEventListener('click', async () => {
     }
 });
 
-// Enviar datos al backend
+// Enviar datos al backend (mantener igual)
 btnEnviarDatos.addEventListener('click', async () => {
     const nombre = document.getElementById('inputNombre').value;
     const mensaje = document.getElementById('inputMensaje').value;
