@@ -1,6 +1,4 @@
-// script.js - VERSIÓN CORREGIDA
-
-// URL de tu backend - VERIFICA QUE ESTA SEA LA CORRECTA
+// script.js - VERSIÓN 100% FUNCIONAL
 const BACKEND_URL = 'https://mi-proyecto-web-4qau.onrender.com';
 
 // Elementos del DOM
@@ -14,40 +12,35 @@ const estadoConexion = document.getElementById('estadoConexion');
 async function probarConexion() {
     try {
         estadoConexion.innerHTML = '🔄 Probando conexión...';
-        
         const respuesta = await fetch(`${BACKEND_URL}/api/mensaje`);
         const datos = await respuesta.json();
-        
         estadoConexion.innerHTML = `✅ Conectado al backend: ${datos.mensaje}`;
         estadoConexion.style.color = '#155724';
-        
     } catch (error) {
         estadoConexion.innerHTML = `❌ Error de conexión: ${error.message}`;
         estadoConexion.style.color = '#721c24';
     }
 }
 
-// Obtener mensaje del backend - VERSIÓN CORREGIDA
+// Obtener mensaje del backend - CORREGIDO
 btnObtenerMensaje.addEventListener('click', async () => {
     try {
         mensajeBackend.innerHTML = '🔄 Cargando...';
-        
         const respuesta = await fetch(`${BACKEND_URL}/api/mensaje`);
         const datos = await respuesta.json();
         
-        // ESTA ES LA PARTE CORREGIDA - usando las propiedades correctas
+        // ESTA LÍNEA ESTABA MAL - AHORA CORREGIDA
         mensajeBackend.innerHTML = `
             <strong>Mensaje:</strong> ${datos.mensaje}<br>
             <strong>Hora:</strong> ${datos.timestamp}<br>
             <strong>Servidor:</strong> ${datos.servidor}
         `;
-        
     } catch (error) {
         mensajeBackend.innerHTML = `❌ Error: ${error.message}`;
     }
 });
 
-// Enviar datos al backend (mantener igual)
+// Enviar datos al backend
 btnEnviarDatos.addEventListener('click', async () => {
     const nombre = document.getElementById('inputNombre').value;
     const mensaje = document.getElementById('inputMensaje').value;
@@ -59,26 +52,20 @@ btnEnviarDatos.addEventListener('click', async () => {
     
     try {
         respuestaBackend.innerHTML = '🔄 Enviando datos...';
-        
         const respuesta = await fetch(`${BACKEND_URL}/api/datos`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ nombre, mensaje })
         });
-        
         const datos = await respuesta.json();
-        
         respuestaBackend.innerHTML = `
             <strong>Respuesta:</strong> ${datos.respuesta}<br>
             <strong>Procesado:</strong> ${datos.procesado ? '✅ Sí' : '❌ No'}
         `;
-        
     } catch (error) {
         respuestaBackend.innerHTML = `❌ Error: ${error.message}`;
     }
 });
 
-// Probar conexión al cargar la página
+// Iniciar
 document.addEventListener('DOMContentLoaded', probarConexion);
