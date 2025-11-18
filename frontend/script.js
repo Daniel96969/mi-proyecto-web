@@ -1,7 +1,7 @@
 // script.js
 
 // URL del backend - cambiar por tu URL de Render cuando despliegues
-const BACKEND_URL = 'http://localhost:3000';
+const BACKEND_URL = 'https://mi-proyecto-web-4qau.onrender.com/';
 
 // Elementos del DOM
 const btnObtenerMensaje = document.getElementById('btnObtenerMensaje');
