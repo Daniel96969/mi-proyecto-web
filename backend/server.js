@@ -1,18 +1,28 @@
-// server.js
+
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
-app.use(cors()); // Permite peticiones desde el frontend
-app.use(express.json()); // Para entender JSON en las peticiones
+app.use(cors());
+app.use(express.json());
 
-// Ruta de prueba para verificar que el backend funciona
+// SERVIR ARCHIVOS ESTÁTICOS DEL FRONTEND
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Ruta para servir el frontend
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
+// Ruta de salud para verificar que el backend funciona
+app.get('/health', (req, res) => {
   res.json({ 
-    mensaje: '¡Backend funcionando correctamente!',
+    status: 'OK',
+    mensaje: 'Backend funcionando correctamente',
     fecha: new Date().toISOString()
   });
 });
@@ -25,7 +35,7 @@ app.get('/api/mensaje', (req, res) => {
   });
 });
 
-// Ruta para recibir datos del frontend
+// Ruta para recibir datos del frontend - CORREGIDA
 app.post('/api/datos', (req, res) => {
   const { nombre, mensaje } = req.body;
   res.json({
@@ -36,6 +46,5 @@ app.post('/api/datos', (req, res) => {
 
 // Iniciar el servidor
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Backend ejecutándose en el puerto ${PORT}`);
-  console.log(`📍 URL local: http://localhost:${PORT}`);
+  console.log(`🚀 Servidor ejecutándose en puerto ${PORT}`);
 });
