@@ -1,90 +1,28 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Proyecto Full-Stack - FUNCIONANDO</title>
+    <title>Proyecto Full-Stack - CONEXIÓN EXITOSA</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
-        }
-        button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-        }
-        button:hover {
-            background: #5a6fd8;
-        }
-        .result {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 6px;
-            background: #e9ecef;
-            border: 1px solid #dee2e6;
-        }
-        .success {
-            background: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-        }
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; margin: 10px 0; cursor: pointer; }
+        .result { background: #e9ecef; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Mi Proyecto Full-Stack - FUNCIONANDO</h1>
-        <p style="text-align: center; margin-bottom: 30px;">Frontend conectado al backend en Render</p>
+        <h1>✅ Proyecto Full-Stack - FUNCIONANDO</h1>
         
-        <div class="card">
-            <h2>🔗 Conexión Backend - DEMOSTRACIÓN</h2>
+        <div>
+            <h2>Conexión Backend</h2>
             <button onclick="getMessage()">Obtener mensaje del backend</button>
             <div id="messageResult" class="result"></div>
         </div>
 
-        <div class="card">
-            <h2>📨 Enviar datos al Backend</h2>
-            <input type="text" id="inputName" placeholder="Tu nombre" style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 6px;">
-            <input type="text" id="inputMessage" placeholder="Tu mensaje" style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 6px;">
-            <button onclick="sendData()">Enviar al backend</button>
-            <div id="dataResult" class="result"></div>
-        </div>
-
-        <div class="card success">
-            <h3>✅ Estado de la conexión:</h3>
-            <p id="connectionStatus">Haz clic en "Obtener mensaje" para probar la conexión</p>
+        <div>
+            <h2>Estado de Conexión</h2>
+            <div id="status" class="result success">Presiona el botón para probar conexión</div>
         </div>
     </div>
 
@@ -93,64 +31,27 @@
 
         async function getMessage() {
             try {
-                document.getElementById('messageResult').innerHTML = '🔄 Cargando...';
-                document.getElementById('connectionStatus').innerHTML = '🔄 Conectando con el backend...';
+                document.getElementById('messageResult').innerHTML = '🔄 Conectando...';
+                document.getElementById('status').innerHTML = '🔄 Conectando al backend...';
                 
-                const response = await fetch(`${BACKEND_URL}/api/mensaje`);
+                const response = await fetch(BACKEND_URL + '/api/mensaje');
                 const data = await response.json();
                 
-                document.getElementById('messageResult').innerHTML = `
-                    <strong>Mensaje:</strong> ${data.mensaje}<br>
-                    <strong>Hora:</strong> ${data.timestamp}<br>
-                    <strong>Servidor:</strong> ${data.servidor}
-                `;
+                document.getElementById('messageResult').innerHTML = 
+                    `<strong>Mensaje:</strong> ${data.mensaje}<br>
+                     <strong>Hora:</strong> ${data.timestamp}<br>
+                     <strong>Servidor:</strong> ${data.servidor}`;
                 
-                document.getElementById('connectionStatus').innerHTML = '✅ Conexión exitosa con el backend';
-                document.getElementById('connectionStatus').style.color = '#155724';
+                document.getElementById('status').innerHTML = '✅ CONEXIÓN EXITOSA - Frontend y Backend comunicándose';
                 
             } catch (error) {
-                document.getElementById('messageResult').innerHTML = `❌ Error: ${error.message}`;
-                document.getElementById('connectionStatus').innerHTML = `❌ Error de conexión: ${error.message}`;
-                document.getElementById('connectionStatus').style.color = '#721c24';
+                document.getElementById('messageResult').innerHTML = '❌ Error: ' + error.message;
+                document.getElementById('status').innerHTML = '❌ Error de conexión';
             }
         }
 
-        async function sendData() {
-            const name = document.getElementById('inputName').value;
-            const message = document.getElementById('inputMessage').value;
-            
-            if (!name || !message) {
-                alert('Por favor completa ambos campos');
-                return;
-            }
-            
-            try {
-                document.getElementById('dataResult').innerHTML = '🔄 Enviando datos...';
-                
-                const response = await fetch(`${BACKEND_URL}/api/datos`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ nombre: name, mensaje: message })
-                });
-                
-                const data = await response.json();
-                
-                document.getElementById('dataResult').innerHTML = `
-                    <strong>Respuesta:</strong> ${data.respuesta}<br>
-                    <strong>Procesado:</strong> ${data.procesado ? '✅ Sí' : '❌ No'}
-                `;
-                
-            } catch (error) {
-                document.getElementById('dataResult').innerHTML = `❌ Error: ${error.message}`;
-            }
-        }
-
-        // Probar conexión automáticamente al cargar
-        window.onload = function() {
-            getMessage();
-        };
+        // Probar automáticamente
+        getMessage();
     </script>
 </body>
 </html>
