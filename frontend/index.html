@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Proyecto Web</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Mi Proyecto Full-Stack</h1>
+        <p>Esta es la interfaz frontend conectada al backend</p>
+        
+        <div class="card">
+            <h2>Conexión Backend</h2>
+            <button id="btnObtenerMensaje">Obtener mensaje del backend</button>
+            <div id="mensajeBackend" class="mensaje"></div>
+        </div>
+
+        <div class="card">
+            <h2>Enviar datos al Backend</h2>
+            <input type="text" id="inputNombre" placeholder="Tu nombre">
+            <input type="text" id="inputMensaje" placeholder="Tu mensaje">
+            <button id="btnEnviarDatos">Enviar al backend</button>
+            <div id="respuestaBackend" class="mensaje"></div>
+        </div>
+
+        <div class="info">
+            <h3>🔗 Estado de la conexión:</h3>
+            <p id="estadoConexion">Probando conexión...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
